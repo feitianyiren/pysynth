@@ -1,29 +1,24 @@
 #!/usr/bin/python
 
+# This is a sample 'song' script that uses the synth library to play a series of notes and chords.
+
 from synth import Sample, Device, sin, tri, squ, Twopi, note_freq
 from time import sleep
 
 dev = Device()
 
-#click = Sample(fn=tri(2000, 10000), domain=dev.time_range(0, .001875))
-#dev.loop(click, 1)
-#scale = dev.create_scale(sin(1.0/Twopi, 1.0), ['A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4'], domain=10)
-#dev.play(scale['A4'])
-
 import math
-s0 = Sample.from_function(math.sin, note_freq('C'), 6000.0, domain=range(10000))
-s1 = Sample.from_function(math.sin, note_freq('D'), 6000.0, domain=range(10000))
-s2 = Sample.from_function(math.sin, note_freq('F'), 6000.0, domain=range(10000))
-#s.plot()
-#dev.play(s0)
-#dev.play(s1)
-#dev.play(s2)
-dev.loop(s0, 1)
-dev.loop(s1, 2)
-dev.loop(s2, 4)
+s0 = Sample.from_function(math.sin, note_freq('C'), 6000.0, domain=range(10000))  # sine wave choresponding to middle C
+# domain is basically the number of samples. Default sampling rate is 16000/s, so each of these samples is 10000/16000 seconds long in time duration.
+s1 = Sample.from_function(math.sin, note_freq('E'), 6000.0, domain=range(10000))  # middle D
+s2 = Sample.from_function(math.sin, note_freq('G'), 6000.0, domain=range(10000))  # middle G
 
-dev.start()
-sleep(5.0)
+dev.loop(s0, 1)  # plays C every beat
+dev.loop(s1, 2)  # plays E every 2 beats
+dev.loop(s2, 4)  # plays G every 4 beats
+# Default time signature is 60 bpm
 
-dev.close()
+dev.start()  # open an audio device and start playing
+sleep(5.0)   # let the loops run for 5 seconds
+dev.close()  # close the audio device
 
